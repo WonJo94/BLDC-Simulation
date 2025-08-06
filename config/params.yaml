@@ -1,0 +1,75 @@
+# ===================================================================
+# Central Configuration for BLDC Motor Simulation
+# ===================================================================
+
+# ----------------------------------------------------
+# Path Configuration
+# Description: Defines all input and output paths. All paths are
+# relative to the project root directory.
+# ----------------------------------------------------
+paths:
+  cad: "cad"
+  results: "results"
+  figs: "figs"
+  report: "report"
+  templates: "templates"
+  modelica_model_template: "templates/BLDC_System.mo"
+  report_template: "templates/report_template.md"
+
+# ----------------------------------------------------
+# Motor Specifications
+# ----------------------------------------------------
+motors:
+  ILM25x08:
+    poles: 14
+    torque_nom_Nm: 0.063
+    torque_peak_Nm: 0.204
+    kT_Nm_per_A: 0.0147
+    stator_OD_mm: 25
+    rotor_ID_mm: 11.6
+    stator_len_mm: 15.2
+    rotor_len_mm: 9.7
+    rated_current_A: 4.3
+    rated_voltage_V: 24
+  ILM50x14:
+    poles: 20
+    torque_nom_Nm: 0.54
+    torque_peak_Nm: 1.75
+    kT_Nm_per_A: 0.103
+    stator_OD_mm: 50
+    rotor_ID_mm: 30
+    stator_len_mm: 22.6
+    rotor_len_mm: 16.1
+    rated_current_A: 5.3
+    rated_voltage_V: 48
+
+# ----------------------------------------------------
+# Simulation Parameters
+# ----------------------------------------------------
+simulation_params:
+  # Geometric error cases for FEMM simulations
+  geometry_errors:
+    static_ecc_mm: [0.0, 0.02, 0.05]
+    dynamic_ecc_mm: [0.0, 0.02]
+    tilt_deg: [0.0, 0.2, 0.5]
+    # Note: 'centering_dx' was in the original prompt but not used in the
+    # provided femm script. It is kept here for future extension.
+    centering_dx_mm: [0.0, 0.05]
+
+  # FEMM sweep settings
+  femm:
+    # Sweep step in electrical degrees
+    sweep_step_elec_deg: 1.0
+
+  # System-level simulation settings (OpenModelica)
+  system:
+    # Controller types for system simulation
+    controllers: ["FOC", "SixStep"]
+    # HIL sampling frequencies in kHz
+    hil_freq_kHz: [2, 5]
+    # Encoder resolution in bits
+    encoder_bits: 14
+    # RPM cases for the simulation (points representing the 1-3000 range)
+    speed_rpm: [100, 1500, 3000]
+    # Simulation duration in seconds
+    sim_time_s: 2.0
